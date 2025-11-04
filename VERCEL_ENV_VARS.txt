@@ -1,0 +1,14 @@
+# Environment Variables for Vercel Deployment
+# Copy these key-value pairs to your Vercel dashboard
+
+REACT_APP_DEMO_MODE = true
+REACT_APP_API_BASE_URL = https://demo-api.piseva.com/api
+REACT_APP_SOCKET_URL = https://demo-api.piseva.com
+REACT_APP_ENV = production
+
+# Instructions:
+# 1. Go to Vercel Dashboard > Your Project > Settings > Environment Variables
+# 2. Add each variable above as Name = Value pairs
+# 3. Set Environment: Production
+# 4. Click "Save"
+# 5. Redeploy your application

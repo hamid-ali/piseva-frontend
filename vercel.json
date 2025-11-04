@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "name": "piseva-frontend",
-  "builds": [
-    {
-      "src": "build/**",
-      "use": "@vercel/static"
-    }
-  ],
+  "name": "piseva-service-marketplace",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
   "routes": [
     {
       "src": "/static/(.*)",
@@ -16,10 +12,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_API_BASE_URL": "@react_app_api_base_url",
-    "REACT_APP_SOCKET_URL": "@react_app_socket_url",
-    "REACT_APP_ENV": "production"
-  }
+  ]
 }
