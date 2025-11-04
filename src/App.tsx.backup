@@ -1,0 +1,141 @@
+import React from 'react';import React from 'react';
+
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+import { AuthProvider, useAuth } from './contexts/AuthContext';import { AuthProvider, useAuth } from './contexts/AuthContext';
+
+import AuthPage from './components/auth/AuthPage';import AuthPage from './components/auth/AuthPage';
+
+import ProtectedRoute from './components/auth/ProtectedRoute';import ProtectedRoute from './components/auth/ProtectedRoute';
+
+import Layout from './components/layout/Layout';import Layout from './components/layout/Layout';
+
+import Dashboard from './components/layout/Dashboard';import Dashboard from './components/layout/Dashboard';
+
+import ServiceBrowser from './components/services/ServiceBrowser';import ServiceBrowser from './components/services/ServiceBrowser';
+
+import './App.css';import './App.css';
+
+
+
+// Main App Routes Component// Main App Routes Component
+
+const AppRoutes: React.FC = () => {const AppRoutes: React.FC = () => {
+
+  const { state } = useAuth();  const { state } = useAuth();
+
+
+
+  if (state.isLoading) {  if (state.isLoading) {
+
+    return (    return (
+
+      <div className="loading-container">      <div className="loading-container">
+
+        <div className="loading-spinner"></div>        <div className="loading-spinner"></div>
+
+        <p>Loading...</p>        <p>Loading...</p>
+
+      </div>      </div>
+
+    );    );
+
+  }  }
+
+
+
+  if (!state.isAuthenticated) {  if (!state.isAuthenticated) {
+
+    return <AuthPage />;    return <AuthPage />;
+
+  }  }
+
+
+
+  return (  return (
+
+    <Layout>    <Layout>
+
+      <Routes>      <Routes>
+
+        <Route path="/" element={<Dashboard />} />        <Route path="/" element={<Dashboard />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/services" element={        <Route path="/services" element={
+
+          <ProtectedRoute requiredUserType="customer">          <ProtectedRoute requiredUserType="customer">
+
+            <ServiceBrowser />            <ServiceBrowser />
+
+          </ProtectedRoute>          </ProtectedRoute>
+
+        } />        } />
+
+        <Route path="/bookings" element={        <Route path="/bookings" element={
+
+          <ProtectedRoute>          <ProtectedRoute>
+
+            <div>Bookings page coming soon...</div>            <div>Bookings page coming soon...</div>
+
+          </ProtectedRoute>          </ProtectedRoute>
+
+        } />        } />
+
+        <Route path="/profile" element={        <Route path="/profile" element={
+
+          <ProtectedRoute>          <ProtectedRoute>
+
+            <div>Profile page coming soon...</div>            <div>Profile page coming soon...</div>
+
+          </ProtectedRoute>          </ProtectedRoute>
+
+        } />        } />
+
+        <Route path="/my-services" element={        <Route path="/my-services" element={
+
+          <ProtectedRoute requiredUserType="provider">          <ProtectedRoute requiredUserType="provider">
+
+            <div>My Services page coming soon...</div>            <div>My Services page coming soon...</div>
+
+          </ProtectedRoute>          </ProtectedRoute>
+
+        } />        } />
+
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+
+      </Routes>      </Routes>
+
+    </Layout>    </Layout>
+
+  );  );
+
+};};
+
+
+
+function App() {function App() {
+
+  return (  return (
+
+    <AuthProvider>    <AuthProvider>
+
+      <Router>      <Router>
+
+        <div className="App">        <div className="App">
+
+          <AppRoutes />          <AppRoutes />
+
+        </div>        </div>
+
+      </Router>      </Router>
+
+    </AuthProvider>    </AuthProvider>
+
+  );  );
+
+}}
+
+
+
+export default App;export default App;
