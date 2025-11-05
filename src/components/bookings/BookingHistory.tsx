@@ -26,10 +26,11 @@ const BookingHistory: React.FC = () => {
     try {
       setLoading(true);
       const response = await bookingService.getBookings(filters);
-      setBookings(response.bookings);
+      setBookings(response.bookings || []); // Ensure it's always an array
     } catch (error: any) {
       showNotification('Failed to load bookings', 'error');
       console.error('Error fetching bookings:', error);
+      setBookings([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -101,7 +102,7 @@ const BookingHistory: React.FC = () => {
         </div>
       </div>
       
-      {bookings.length === 0 ? (
+      {(!bookings || bookings.length === 0) ? (
         <div className="empty-state">
           <h3>No bookings found</h3>
           <p>
@@ -121,7 +122,7 @@ const BookingHistory: React.FC = () => {
         </div>
       ) : (
         <div className="bookings-grid">
-          {bookings.map(booking => {
+          {bookings && bookings.map(booking => {
             const otherParty = isProvider ? booking.customer : booking.provider;
             
             return (

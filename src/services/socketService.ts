@@ -35,7 +35,7 @@ class SocketService {
       return;
     }
 
-    const socketUrl = process.env.REACT_APP_SOCKET_URL || 'http://localhost:3001';
+    const socketUrl = process.env.REACT_APP_SOCKET_URL || 'https://undetectably-multidigitate-paulette.ngrok-free.dev';
     
     this.socket = io(socketUrl, {
       auth: {
@@ -45,7 +45,9 @@ class SocketService {
       timeout: 10000,
       reconnection: true,
       reconnectionAttempts: this.maxReconnectAttempts,
-      reconnectionDelay: this.reconnectInterval
+      reconnectionDelay: this.reconnectInterval,
+      forceNew: true,
+      path: '/socket.io/'
     });
 
     this.setupEventListeners();
