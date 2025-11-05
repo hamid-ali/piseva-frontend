@@ -55,11 +55,13 @@ const ServiceManagement: React.FC = () => {
         serviceService.getServiceCategories()
       ]);
       
-      setServices(myServices.data);
-      setCategories(serviceCategories);
+      setServices(myServices.data || []); // Ensure it's always an array
+      setCategories(serviceCategories || []); // Ensure it's always an array
     } catch (error: any) {
       showNotification('Failed to load services', 'error');
       console.error('Error loading services:', error);
+      setServices([]); // Set empty array on error
+      setCategories([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -325,7 +327,7 @@ const ServiceManagement: React.FC = () => {
                   className={errors.category ? 'error' : ''}
                 >
                   <option value="">Select a category</option>
-                  {categories.map(cat => (
+                  {categories && categories.map(cat => (
                     <option key={cat.name} value={cat.name}>{cat.name}</option>
                   ))}
                 </select>
@@ -578,7 +580,7 @@ const ServiceManagement: React.FC = () => {
       )}
 
       <div className="services-grid">
-        {services.length === 0 ? (
+        {(!services || services.length === 0) ? (
           <div className="empty-state">
             <h3>No services yet</h3>
             <p>Create your first service to start receiving bookings!</p>
@@ -590,7 +592,7 @@ const ServiceManagement: React.FC = () => {
             </button>
           </div>
         ) : (
-          services.map(service => (
+          services && services.map(service => (
             <div key={service._id} className="service-card my-service">
               <div className="service-card-header">
                 <span className={`status-badge ${service.isActive ? 'active' : 'inactive'}`}>

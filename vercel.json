@@ -9,8 +9,21 @@
       "dest": "/static/$1"
     },
     {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/favicon.ico", 
+      "dest": "/favicon.ico"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "REACT_APP_API_BASE_URL": "https://undetectably-multidigitate-paulette.ngrok-free.dev/api",
+    "REACT_APP_SOCKET_URL": "https://undetectably-multidigitate-paulette.ngrok-free.dev",
+    "REACT_APP_ENV": "production"
+  }
 }

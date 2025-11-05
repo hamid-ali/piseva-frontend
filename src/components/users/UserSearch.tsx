@@ -95,13 +95,15 @@ const UserSearch: React.FC = () => {
         category: category || undefined
       });
 
-      setNearbyProviders(providers);
+      setNearbyProviders(providers || []); // Ensure it's always an array
       
       // Get services for each provider
-      await loadProviderServices(providers);
+      await loadProviderServices(providers || []);
       
     } catch (error: any) {
       setError(error.response?.data?.message || 'Failed to search providers');
+      setNearbyProviders([]); // Set empty array on error
+      setProviderServices([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -260,7 +262,7 @@ const UserSearch: React.FC = () => {
         </div>
       ) : (
         <div className="search-results">
-          {searchType === 'nearby' && nearbyProviders.length > 0 && (
+          {searchType === 'nearby' && nearbyProviders && nearbyProviders.length > 0 && (
             <div className="providers-section">
               <h2>Nearby Service Providers ({nearbyProviders.length} found)</h2>
               
